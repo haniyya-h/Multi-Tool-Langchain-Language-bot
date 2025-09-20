@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Buddy</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Language Learning Buddy</h1>
+            <p>Your AI-powered language learning companion</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" onclick="showTab('translate')">Translate</button>
+            <button class="tab-button" onclick="showTab('grammar')">Grammar Check</button>
+            <button class="tab-button" onclick="showTab('pronunciation')">Pronunciation</button>
+            <button class="tab-button" onclick="showTab('conversation')">Conversation</button>
+            <button class="tab-button" onclick="showTab('chat')">AI Chat</button>
+        </nav>
+
+        <!-- Translation Tab -->
+        <div id="translate" class="tab-content active">
+            <h2>Translation Tool</h2>
+            <form hx-post="/translate" hx-target="#translate-result" hx-indicator="#translate-loading">
+                <div class="form-group">
+                    <label for="translate-text">Text to translate:</label>
+                    <textarea id="translate-text" name="text" rows="4" placeholder="Enter text to translate..." required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="src-lang">From:</label>
+                        <select id="src-lang" name="src_lang" required>
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ur">Urdu</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tgt-lang">To:</label>
+                        <select id="tgt-lang" name="tgt_lang" required>
+                            <option value="es">Spanish</option>
+                            <option value="en">English</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ur">Urdu</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Translate</button>
+                <div id="translate-loading" class="loading" hx-indicator>Translating...</div>
+            </form>
+            <div id="translate-result" class="result"></div>
+        </div>
+
+        <!-- Grammar Tab -->
+        <div id="grammar" class="tab-content">
+            <h2>Grammar Correction</h2>
+            <form hx-post="/grammar" hx-target="#grammar-result" hx-indicator="#grammar-loading">
+                <div class="form-group">
+                    <label for="grammar-text">Text to check:</label>
+                    <textarea id="grammar-text" name="text" rows="4" placeholder="Enter text to check grammar..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="grammar-lang">Language:</label>
+                    <select id="grammar-lang" name="language" required>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+                <button type="submit">Check Grammar</button>
+                <div id="grammar-loading" class="loading" hx-indicator>Checking grammar...</div>
+            </form>
+            <div id="grammar-result" class="result"></div>
+        </div>
+
+        <!-- Pronunciation Tab -->
+        <div id="pronunciation" class="tab-content">
+            <h2>Pronunciation Tool</h2>
+            <form hx-post="/pronounce" hx-target="#pronunciation-result" hx-indicator="#pronunciation-loading">
+                <div class="form-group">
+                    <label for="pronunciation-text">Text to pronounce:</label>
+                    <textarea id="pronunciation-text" name="text" rows="4" placeholder="Enter text to hear pronunciation..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pronunciation-lang">Language:</label>
+                    <select id="pronunciation-lang" name="language" required>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+                <button type="submit">Generate Audio</button>
+                <div id="pronunciation-loading" class="loading" hx-indicator>Generating audio...</div>
+            </form>
+            <div id="pronunciation-result" class="result"></div>
+        </div>
+
+        <!-- Conversation Tab -->
+        <div id="conversation" class="tab-content">
+            <h2>Conversation Practice</h2>
+            <p style="color: #666; margin-bottom: 20px;">Practice real conversations with an AI tutor. The AI will guide you through interactive roleplay scenarios!</p>
+            <form hx-post="/conversation" hx-target="#conversation-result" hx-indicator="#conversation-loading">
+                <div class="form-group">
+                    <label for="conversation-prompt">What would you like to practice?</label>
+                    <textarea id="conversation-prompt" name="prompt" rows="3" placeholder="e.g., Ordering food at a restaurant, introducing yourself, asking for directions..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="conversation-lang">Language:</label>
+                    <select id="conversation-lang" name="language" required>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+                <button type="submit">Start Practice</button>
+                <div id="conversation-loading" class="loading" hx-indicator>Starting conversation...</div>
+            </form>
+            <div id="conversation-result" class="result"></div>
+        </div>
+
+        <!-- AI Chat Tab -->
+        <div id="chat" class="tab-content">
+            <h2>AI Language Tutor</h2>
+            <p style="color: #666; margin-bottom: 20px;">Have a conversation with your AI language tutor. The AI will remember our conversation!</p>
+            <form hx-post="/chat" hx-target="#chat-result" hx-indicator="#chat-loading">
+                <div class="form-group">
+                    <label for="chat-message">Start a conversation:</label>
+                    <textarea id="chat-message" name="message" rows="3" placeholder="e.g., 'I want to learn Spanish', 'Help me with French grammar', 'Let's practice ordering food'..." required></textarea>
+                </div>
+                <button type="submit">Start Conversation</button>
+                <div id="chat-loading" class="loading" hx-indicator>Thinking...</div>
+            </form>
+            <div id="chat-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Handle HTMX responses
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.detail.xhr.status !== 200) {
+                const target = evt.detail.target;
+                target.innerHTML = '<div class="error">Error: ' + evt.detail.xhr.responseText + '</div>';
+            }
+        });
+    </script>
+</body>
+</html>
